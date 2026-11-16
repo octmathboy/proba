@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TD 1 Complet - Proba & Stat 2 (Exos 1 à 6)</title>
+  
+  <!-- Configuration MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+  <style>
+    :root {
+      --bg-dark: #090d1a;
+      --bg-card: #11182d;
+      --bg-card-inner: #16203c;
+      --blue-primary: #3b82f6;
+      --blue-glow: rgba(59, 130, 246, 0.25);
+      --pink-accent: #ec4899;
+      --pink-light: #f472b6;
+      --pink-glow: rgba(236, 72, 153, 0.25);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 10%, var(--blue-glow) 0%, transparent 45%),
+        radial-gradient(circle at 85% 90%, var(--pink-glow) 0%, transparent 45%);
+      color: var(--text-main);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+      padding: 1.5rem 1rem 4rem;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 2.2rem 1.5rem;
+      background: linear-gradient(135deg, rgba(17, 24, 45, 0.95), rgba(22, 32, 60, 0.95));
+      border: 1px solid var(--border-color);
+      border-top: 3px solid var(--pink-accent);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--blue-primary), var(--pink-accent));
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 {
+      font-size: 1.95rem;
+      background: linear-gradient(90deg, #fff, var(--pink-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.4rem;
+    }
+
+    header p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* Navigation Sticky */
+    nav.exo-nav {
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(17, 24, 45, 0.88);
+      backdrop-filter: blur(12px);
+      padding: 0.75rem;
+      border-radius: 14px;
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      margin-bottom: 2.5rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.45);
+    }
+
+    nav.exo-nav a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      background: var(--bg-card-inner);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    nav.exo-nav a:hover {
+      background: linear-gradient(90deg, var(--blue-primary), var(--pink-accent));
+      border-color: transparent;
+      transform: translateY(-2px);
+    }
+
+    /* Section Exercice */
+    .exo-section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 85px;
+    }
+
+    .exo-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.2));
+      border-left: 5px solid var(--pink-accent);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .exo-banner h2 {
+      font-size: 1.45rem;
+      color: #fff;
+    }
+
+    .exo-tag {
+      font-size: 0.8rem;
+      color: var(--pink-light);
+      font-weight: 600;
+      background: rgba(9, 13, 26, 0.6);
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+    }
+
+    /* Cartes Questions */
+    .question-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .q-header {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .q-num {
+      background: linear-gradient(135deg, var(--pink-accent), var(--blue-primary));
+      color: white;
+      font-weight: bold;
+      min-width: 36px;
+      height: 36px;
+      padding: 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-size: 1rem;
+      box-shadow: 0 0 12px var(--pink-glow);
+    }
+
+    .q-title { font-size: 1.1rem; font-weight: 600; color: #fff; }
+
+    /* Boîtes pédagogiques */
+    .explain-box {
+      background: var(--bg-card-inner);
+      border-left: 3px solid var(--pink-accent);
+      padding: 0.95rem 1.2rem;
+      border-radius: 0 10px 10px 0;
+      margin: 0.9rem 0;
+      font-size: 0.95rem;
+    }
+
+    .explain-title {
+      color: var(--pink-light);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .step { margin: 1rem 0; }
+    .step-title { color: var(--blue-primary); font-weight: 600; margin-bottom: 0.3rem; }
+
+    .result-box {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.12), rgba(236, 72, 153, 0.12));
+      border: 1px solid rgba(236, 72, 153, 0.45);
+      border-radius: 10px;
+      padding: 0.95rem 1.3rem;
+      margin-top: 1.1rem;
+      text-align: center;
+      font-size: 1.02rem;
+    }
+
+    /* Tableaux */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid var(--border-color);
+      padding: 0.65rem 0.9rem;
+      text-align: center;
+    }
+    th {
+      background: var(--bg-card-inner);
+      color: var(--pink-light);
+    }
+
+    /* Grille options Q3 Exo 1 */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.65rem;
+      margin: 0.9rem 0;
+    }
+    .opt-item {
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      background: var(--bg-card-inner);
+      border: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+    .opt-valid { border-color: var(--success); background: rgba(16, 185, 129, 0.1); }
+    .opt-invalid { border-color: rgba(239, 68, 68, 0.4); opacity: 0.8; }
+    .tag-ok { color: var(--success); font-weight: bold; }
+    .tag-no { color: var(--danger); font-weight: bold; }
+
+    .graph-container {
+      display: flex;
+      justify-content: center;
+      margin: 1.2rem 0;
+      background: #0b1021;
+      padding: 1.2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    ul, ol { padding-left: 1.5rem; margin: 0.4rem 0; }
+    li { margin-bottom: 0.35rem; }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <span class="badge">ING2 • Proba et Stat 2 • Semestre 1</span>
+    <h1>TD 1 Complet : Modes de Convergence</h1>
+    <p>Université Djillali Liabès - Sidi Bel Abbès • Corrigé détaillé et expliqué (Exercices 1 à 6)</p>
+  </header>
+
+  <nav class="exo-nav">
+    <a href="#exo1">Exercice 1</a>
+    <a href="#exo2">Exercice 2</a>
+    <a href="#exo3">Exercice 3</a>
+    <a href="#exo4">Exercice 4</a>
+    <a href="#exo5">Exercice 5</a>
+    <a href="#exo6">Exercice 6</a>
+  </nav>
+
+  <!-- ========================================================= -->
+  <!-- EXERCICE 1                                                -->
+  <!-- ========================================================= -->
+  <section id="exo1" class="exo-section">
+    <div class="exo-banner">
+      <h2>Exercice 1 : Densité, Espérance, Variance et Extremums</h2>
+      <span class="exo-tag">Variables Continues</span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">1</div>
+        <div class="q-title">Conditions de densité et valeur de $k$</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Explication</span>
+        $f$ est une densité de probabilité si et seulement si $f(x) \ge 0$ sur $\mathbb{R}$ et $\displaystyle \int_{-\infty}^{+\infty} f(x)\,dx = 1$.
+      </div>
+      <div class="step">
+        <p>• <strong>Positivité :</strong> $x^2 \ge 0$ sur $[-1, 1]$ et $f(x)=0$ ailleurs, donc il faut $k \ge 0$.</p>
+        <p>• <strong>Normalisation :</strong></p>
+        $$\int_{-1}^{1} kx^2\,dx = k \left[ \frac{x^3}{3} \right]_{-1}^{1} = k \left(\frac{1}{3} - \left(-\frac{1}{3}\right)\right) = \frac{2}{3}k = 1 \implies k = \frac{3}{2}$$
+      </div>
+      <div class="result-box">$\mathbf{k = \frac{3}{2}}$ (condition $k \ge 0$ vérifiée)</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">2</div>
+        <div class="q-title">Tracé sommaire du graphe de $f$</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Explication</span>
+        Sur $[-1, 1]$, c'est une parabole de sommet $(0,0)$ qui monte jusqu'à $f(-1) = f(1) = 1,5$. Ailleurs, la fonction est nulle sur l'axe des abscisses.
+      </div>
+      <div class="graph-container">
+        <svg width="420" height="210" viewBox="0 0 460 240">
+          <line x1="30" y1="190" x2="430" y2="190" stroke="#475569" stroke-width="1.5"/>
+          <line x1="230" y1="20" x2="230" y2="220" stroke="#475569" stroke-width="1.5"/>
+          <line x1="130" y1="70" x2="130" y2="190" stroke="#ec4899" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="330" y1="70" x2="330" y2="190" stroke="#ec4899" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="130" y1="70" x2="330" y2="70" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4"/>
+          <line x1="40" y1="190" x2="130" y2="190" stroke="#ec4899" stroke-width="3"/>
+          <line x1="330" y1="190" x2="420" y2="190" stroke="#ec4899" stroke-width="3"/>
+          <path d="M 130 70 Q 230 310 330 70" fill="rgba(236, 72, 153, 0.15)" stroke="#ec4899" stroke-width="3.5"/>
+          <circle cx="130" cy="70" r="4.5" fill="#ec4899"/>
+          <circle cx="330" cy="70" r="4.5" fill="#ec4899"/>
+          <circle cx="130" cy="190" r="4" fill="#0b1021" stroke="#ec4899" stroke-width="2"/>
+          <circle cx="330" cy="190" r="4" fill="#0b1021" stroke="#ec4899" stroke-width="2"/>
+          <text x="122" y="208" fill="#94a3b8" font-size="13">-1</text>
+          <text x="235" y="208" fill="#94a3b8" font-size="13">0</text>
+          <text x="326" y="208" fill="#94a3b8" font-size="13">1</text>
+          <text x="236" y="64" fill="#3b82f6" font-weight="bold" font-size="13">3/2</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div class="q-title">Réponses possibles, Espérance $E(X)$ et Variance $V(X)$</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Logique avant calcul</span>
+        $X \in [-1, 1]$ et $f$ est paire (symétrique autour de $0$), donc $E(X) \in [-1, 1]$ et vaut exactement $0$. De plus, une variance est toujours positive ($V(X) \ge 0$) et bornée par $1^2 = 1$ sur $[-1, 1]$.
+      </div>
+      <div class="options-grid">
+        <div class="opt-item opt-invalid"><span class="tag-no">✘ a)</span> $2 < E(X) < 3$ (hors $[-1,1]$)</div>
+        <div class="opt-item opt-valid"><span class="tag-ok">✔ b)</span> $-1 \le E(X) \le 1$ (vrai)</div>
+        <div class="opt-item opt-invalid"><span class="tag-no">✘ c)</span> $E(X)=0,5$ (non symétrique)</div>
+        <div class="opt-item opt-valid"><span class="tag-ok">✔ d)</span> $E(X)=0$ (centre de symétrie)</div>
+        <div class="opt-item opt-invalid"><span class="tag-no">✘ e)</span> $V(X)=-0,5$ (jamais négative)</div>
+        <div class="opt-item opt-invalid"><span class="tag-no">✘ f)</span> $V(X)=2$ (trop grande)</div>
+        <div class="opt-item opt-valid"><span class="tag-ok">✔ g)</span> $V(X)=0,5$ (plausible $\in [0,1]$)</div>
+      </div>
+      <div class="step">
+        $$E(X) = \int_{-1}^{1} x \cdot \frac{3}{2}x^2\,dx = \frac{3}{2} \left[\frac{x^4}{4}\right]_{-1}^{1} = 0$$
+        $$V(X) = E(X^2) - [E(X)]^2 = \int_{-1}^{1} x^2 \cdot \frac{3}{2}x^2\,dx - 0 = \frac{3}{2} \left[\frac{x^5}{5}\right]_{-1}^{1} = \frac{3}{2}\left(\frac{2}{5}\right) = \frac{3}{5} = 0,6$$
+      </div>
+      <div class="result-box">Possibles : <strong>b), d), g)</strong> &nbsp;|&nbsp; $\mathbf{E(X) = 0}$ &nbsp;|&nbsp; $\mathbf{V(X) = 0,6}$</div>
+    </div>
+
+    <!-- Q4 & Q5 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">4-5</div>
+        <div class="q-title">Fonction de répartition $F_X(x)$ et calcul de $P(-0,5 \le X \le 0,5)$</div>
+      </div>
+      <div class="step">
+        <p><strong>4. Fonction de répartition $F_X(x) = \int_{-\infty}^{x} f(t)\,dt$ :</strong></p>
+        <ul>
+          <li>Si $x < -1$ : $F_X(x) = 0$.</li>
+          <li>Si $-1 \le x \le 1$ : $\displaystyle F_X(x) = \int_{-1}^{x} \frac{3}{2}t^2\,dt = \frac{3}{2}\left[\frac{t^3}{3}\right]_{-1}^{x} = \frac{x^3 + 1}{2}$.</li>
+          <li>Si $x > 1$ : $F_X(x) = 1$.</li>
+        </ul>
+        <p><strong>5. Calcul de probabilité :</strong></p>
+        $$P(-0,5 \le X \le 0,5) = F_X(0,5) - F_X(-0,5) = \frac{0,125 + 1}{2} - \frac{-0,125 + 1}{2} = \frac{0,25}{2} = 0,125$$
+      </div>
+      <div class="result-box">$\mathbf{P(-0,5 \le X \le 0,5) = 0,125}$</div>
+    </div>
+
+    <!-- Q6 & Q7 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">6-7</div>
+        <div class="q-title">Lois du Maximum $Z = \sup X_i$ et du Minimum $T = \inf X_i$</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Astuce Extremums</span>
+        • $\sup X_i \le z \iff$ <strong>tous</strong> les $X_i \le z$ (on utilise l'indépendance).<br>
+        • $\inf X_i > t \iff$ <strong>tous</strong> les $X_i > t$ (on passe par le complémentaire $1 - P(T > t)$).
+      </div>
+      <div class="step">
+        <p><strong>6. Pour $Z = \sup_{1 \le i \le n} X_i$ :</strong></p>
+        $$F_Z(z) = P(X_1 \le z, \dots, X_n \le z) = \prod_{i=1}^n P(X_i \le z) = [F_X(z)]^n$$
+        <p>Sur $[-1, 1]$, $F_Z(z) = \left(\frac{z^3+1}{2}\right)^n$. En dérivant : $\displaystyle f_Z(z) = \frac{3n}{2}z^2\left(\frac{z^3+1}{2}\right)^{n-1}$ (et $0$ ailleurs).</p>
+        <p><strong>7. Démarche pour $T = \inf_{1 \le i \le n} X_i$ :</strong></p>
+        $$P(T > t) = P(X_1 > t, \dots, X_n > t) = \prod_{i=1}^n [1 - F_X(t)] = [1 - F_X(t)]^n \implies F_T(t) = 1 - [1 - F_X(t)]^n$$
+        <p>On obtient ensuite $f_T(t)$ en dérivant $F_T(t)$ par rapport à $t$.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXERCICE 2                                                -->
+  <!-- ========================================================= -->
+  <section id="exo2" class="exo-section">
+    <div class="exo-banner">
+      <h2>Exercice 2 : Loi Normale et Lecture de Table</h2>
+      <span class="exo-tag">Loi Normale $\mathcal{N}(m, \sigma^2)$</span>
+    </div>
+
+    <!-- Q1 & Q2 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">1-2</div>
+        <div class="q-title">Loi normale centrée réduite $T \sim \mathcal{N}(0, 1)$</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Propriétés de la fonction de répartition $\Phi(t) = P(T \le t)$</span>
+        • Symétrie : $\Phi(-t) = 1 - \Phi(t)$.<br>
+        • Intervalle centré : $P(-a \le T \le a) = 2\Phi(a) - 1$.
+      </div>
+      <div class="step">
+        <p><strong>1. Calculs directs via la table de $\mathcal{N}(0, 1)$ :</strong></p>
+        <ul>
+          <li>$P(T \le 1,42) = \Phi(1,42) \approx \mathbf{0,9222}$</li>
+          <li>$P(T \le -1,42) = 1 - \Phi(1,42) = 1 - 0,9222 = \mathbf{0,0778}$</li>
+          <li>$P(-1 \le T \le 1) = 2\Phi(1) - 1 = 2(0,8413) - 1 = \mathbf{0,6826}$</li>
+          <li>$P(-2 \le T \le 2) = 2\Phi(2) - 1 = 2(0,9772) - 1 = \mathbf{0,9544}$</li>
+          <li>$P(-1,96 \le T \le 1,96) = 2\Phi(1,96) - 1 = 2(0,9750) - 1 = \mathbf{0,9500}$</li>
+        </ul>
+        <p><strong>2. Lecture inverse :</strong></p>
+        <ul>
+          <li>$P(T < t) = 0,8859 \implies$ lecture directe dans la table : $\mathbf{t \approx 1,205}$ (ou $1,20$ / $1,21$ selon table).</li>
+          <li>$P(T < t) = 0,0718 < 0,5 \implies t$ est négatif. On cherche $1 - 0,0718 = 0,9282 = \Phi(1,46)$, donc $\mathbf{t \approx -1,46}$.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div class="q-title">Centrage-réduction avec $X \sim \mathcal{N}(m=178, \sigma^2=25)$</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Changement de variable</span>
+        Attention : $\sigma^2 = 25 \implies \sigma = \sqrt{25} = 5$. On pose $T = \frac{X - 178}{5} \sim \mathcal{N}(0, 1)$.
+      </div>
+      <div class="step">
+        <ul>
+          <li>$P(X \le 173) = P\left(T \le \frac{173 - 178}{5}\right) = P(T \le -1) = 1 - \Phi(1) = 1 - 0,8413 = \mathbf{0,1587}$</li>
+          <li>$P(X > 188) = P\left(T > \frac{188 - 178}{5}\right) = P(T > 2) = 1 - \Phi(2) = 1 - 0,9772 = \mathbf{0,0228}$</li>
+          <li>$P(173 < X \le 188) = P(-1 < T \le 2) = \Phi(2) - \Phi(-1) = 0,9772 - 0,1587 = \mathbf{0,8185}$</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q4 & Q5 -->
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">4-5</div>
+        <div class="q-title">Règle des sigmas et détermination de $(m, \sigma)$</div>
+      </div>
+      <div class="step">
+        <p><strong>4. Formule générale :</strong></p>
+        $$P(m - t\sigma < X \le m + t\sigma) = P(-t < T \le t) = 2P(T < t) - 1$$
+        <ul>
+          <li>Pour $t=1$ : $P(m-\sigma < X \le m+\sigma) = 2(0,8413) - 1 = \mathbf{0,6826}$ (68,3%)</li>
+          <li>Pour $t=2$ : $P(m-2\sigma < X \le m+2\sigma) = 2(0,9772) - 1 = \mathbf{0,9544}$ (95,4%)</li>
+          <li>Pour $t=3$ : $P(m-3\sigma < X \le m+3\sigma) = 2(0,9987) - 1 = \mathbf{0,9974}$ (99,7%)</li>
+        </ul>
+        <p><strong>5. Système d'équations pour trouver $m$ et $\sigma$ :</strong></p>
+        <ul>
+          <li>$P(X < 8) = 0,1587 \implies P\left(T < \frac{8 - m}{\sigma}\right) = 1 - 0,8413 \implies \frac{8 - m}{\sigma} = -1 \implies m - \sigma = 8$</li>
+          <li>$P(X < 14) = 0,9772 \implies P\left(T < \frac{14 - m}{\sigma}\right) = 0,9772 \implies \frac{14 - m}{\sigma} = 2 \implies m + 2\sigma = 14$</li>
+        </ul>
+        <p>Par soustraction des deux équations : $3\sigma = 6 \implies \sigma = 2$, d'où $m = 8 + 2 = 10$.</p>
+      </div>
+      <div class="result-box">$\mathbf{m = 10}$ et $\mathbf{\sigma = 2}$</div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXERCICE 3                                                -->
+  <!-- ========================================================= -->
+  <section id="exo3" class="exo-section">
+    <div class="exo-banner">
+      <h2>Exercice 3 : Retards des Trains & Approximations</h2>
+      <span class="exo-tag">Binomiale $\to$ Poisson $\to$ Normale</span>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">1</div>
+        <div class="q-title">Loi exacte de $X$ sur $n = 100$ trains</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Justification</span>
+        On répète $n = 100$ épreuves de Bernoulli indépendantes (chaque train est en retard avec probabilité $p = 0,05$, ou non avec $q = 0,95$). $X$ compte le nombre de succès.
+      </div>
+      <div class="step">
+        <ul>
+          <li><strong>Loi :</strong> $X \sim \mathcal{B}(n = 100, p = 0,05)$</li>
+          <li><strong>Espérance :</strong> $E(X) = np = 100 \times 0,05 = \mathbf{5}$</li>
+          <li><strong>Écart type :</strong> $\sigma(X) = \sqrt{np(1-p)} = \sqrt{100 \times 0,05 \times 0,95} = \sqrt{4,75} \approx \mathbf{2,18}$</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">2</div>
+        <div class="q-title">Approximation par la loi de Poisson</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Conditions d'approximation Binomiale $\to$ Poisson</span>
+        $n$ est grand ($n = 100 \ge 30$), $p$ est petit ($p = 0,05 \le 0,1$) et $np = 5 < 10$. On approche $\mathcal{B}(100, 0,05)$ par la loi de Poisson $\mathcal{P}(\lambda = np = 5)$.
+      </div>
+      <div class="step">
+        $$P(X = 3) \approx e^{-\lambda} \frac{\lambda^3}{3!} = e^{-5} \frac{5^3}{6} = \frac{125}{6} e^{-5} \approx 20,833 \times 0,006738 \approx \mathbf{0,1404}$$
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div class="q-title">Passage à $n = 1000$ trajets : Approximation par la Loi Normale</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Conditions + Correction de continuité</span>
+        Ici $n = 1000 \ge 30$, $np = 50 \ge 5$ et $nq = 950 \ge 5$ (et $npq = 47,5 > 10$). Par le TCL, $X$ suit approximativement $\mathcal{N}(m = 50, \sigma^2 = 47,5)$ avec $\sigma = \sqrt{47,5} \approx 6,892$.<br>
+        Pour passer d'une variable discrète à une continue, on applique la <strong>correction de continuité ($\pm 0,5$)</strong>.
+      </div>
+      <div class="step">
+        <ul>
+          <li><strong>Calcul de $P(X = 50)$ :</strong>
+            $$P(49,5 \le X \le 50,5) = P\left(\frac{-0,5}{6,892} \le T \le \frac{0,5}{6,892}\right) = P(-0,07 \le T \le 0,07) = 2\Phi(0,07) - 1 = 2(0,5279) - 1 = \mathbf{0,0558}$$
+          </li>
+          <li><strong>Calcul de $P(40 < X \le 60) = P(41 \le X \le 60)$ :</strong>
+            <p>Avec correction de continuité, l'intervalle devient $[40,5 \,;\, 60,5]$ :</p>
+            $$P(40,5 \le X \le 60,5) = P\left(\frac{40,5 - 50}{6,892} \le T \le \frac{60,5 - 50}{6,892}\right) = P(-1,38 \le T \le 1,52)$$
+            $$= \Phi(1,52) - [1 - \Phi(1,38)] = 0,9357 - (1 - 0,9162) = 0,9357 - 0,0838 = \mathbf{0,8519}$$
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXERCICE 4                                                -->
+  <!-- ========================================================= -->
+  <section id="exo4" class="exo-section">
+    <div class="exo-banner">
+      <h2>Exercice 4 : Loi Faible des Grands Nombres</h2>
+      <span class="exo-tag">Convergence en Probabilité</span>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">1</div>
+        <div class="q-title">Espérance, Variance et Écart type de la moyenne empirique $\overline{X}_n$</div>
+      </div>
+      <div class="step">
+        <ul>
+          <li><strong>Espérance (par linéarité) :</strong>
+            $$E(\overline{X}_n) = E\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n}\sum_{i=1}^n E(X_i) = \frac{1}{n}(n \cdot m) = \mathbf{m}$$
+          </li>
+          <li><strong>Variance (par indépendance des $X_i$) :</strong>
+            $$V(\overline{X}_n) = V\left(\frac{1}{n}\sum_{i=1}^n X_i\right) = \frac{1}{n^2}\sum_{i=1}^n V(X_i) = \frac{1}{n^2}(n \cdot \sigma^2) = \mathbf{\frac{\sigma^2}{n}}$$
+          </li>
+          <li><strong>Écart type :</strong>
+            $$\sigma(\overline{X}_n) = \sqrt{V(\overline{X}_n)} = \mathbf{\frac{\sigma}{\sqrt{n}}}$$
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">2-3</div>
+        <div class="q-title">Convergence en probabilité vers $m$ et généralisation</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Critère suffisant de convergence en probabilité (Inégalité de Bienaymé-Tchebychev)</span>
+        Si $\lim_{n \to +\infty} E(Y_n) = c$ et $\lim_{n \to +\infty} V(Y_n) = 0$, alors $Y_n \xrightarrow{\mathbb{P}} c$.
+      </div>
+      <div class="step">
+        <p><strong>2. Démonstration :</strong></p>
+        <p>On a $E(\overline{X}_n) = m$ (constant) et $\lim_{n \to +\infty} V(\overline{X}_n) = \lim_{n \to +\infty} \frac{\sigma^2}{n} = 0$. D'après l'inégalité de Bienaymé-Tchebychev, pour tout $\varepsilon > 0$ :</p>
+        $$P(|\overline{X}_n - m| \ge \varepsilon) \le \frac{V(\overline{X}_n)}{\varepsilon^2} = \frac{\sigma^2}{n\varepsilon^2} \xrightarrow[n \to +\infty]{} 0$$
+        <p>Donc <strong>$\overline{X}_n$ converge en probabilité vers $m$</strong>.</p>
+        <p><strong>3. Si les $X_i$ n'ont plus la même loi mais gardent la même espérance $m$ et la même variance $\sigma^2$ :</strong></p>
+        <p><strong>Oui, le résultat reste parfaitement vrai !</strong> Dans les calculs précédents, nous n'avons jamais utilisé le fait que les $X_i$ aient la même loi, uniquement leur indépendance, $E(X_i) = m$ et $V(X_i) = \sigma^2$.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXERCICE 5                                                -->
+  <!-- ========================================================= -->
+  <section id="exo5" class="exo-section">
+    <div class="exo-banner">
+      <h2>Exercice 5 : Lancers d'un Dé & Test d'Hypothèse Intuitif</h2>
+      <span class="exo-tag">Loi Binomiale & TCL</span>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">1</div>
+        <div class="q-title">Loi de $X$ sur $n = 720$ lancers</div>
+      </div>
+      <div class="step">
+        <p>Les $720$ lancers sont indépendants et la probabilité d'obtenir le chiffre 6 à chaque lancer est constante ($p = 1/6$). Donc :</p>
+        <ul>
+          <li><strong>Loi :</strong> $X \sim \mathcal{B}\left(n = 720, p = \frac{1}{6}\right)$</li>
+          <li><strong>Espérance :</strong> $E(X) = 720 \times \frac{1}{6} = \mathbf{120}$</li>
+          <li><strong>Variance :</strong> $V(X) = 720 \times \frac{1}{6} \times \frac{5}{6} = \mathbf{100}$</li>
+          <li><strong>Écart type :</strong> $\sigma(X) = \sqrt{100} = \mathbf{10}$</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">2</div>
+        <div class="q-title">Calcul de $P(X = 120)$ par deux méthodes normales</div>
+      </div>
+      <div class="step">
+        <p>• <strong>Formule exacte (Binomiale) :</strong> $\displaystyle P(X = 120) = C_{720}^{120} \left(\frac{1}{6}\right)^{120} \left(\frac{5}{6}\right)^{600}$.</p>
+        <p>• <strong>Conditions d'approximation Normale :</strong> $n = 720 \ge 30$, $np = 120 \ge 5$, $nq = 600 \ge 5$. On approche $X$ par $\mathcal{N}(m = 120, \sigma^2 = 100)$.</p>
+        <p>• <strong>Méthode 1 (via la densité de probabilité) :</strong></p>
+        $$P(X = 120) \approx f(120) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(120-120)^2}{2\sigma^2}} = \frac{1}{10\sqrt{2\pi}} \approx \frac{1}{25,066} \approx \mathbf{0,0399}$$
+        <p>• <strong>Méthode 2 (via la fonction de répartition + correction de continuité) :</strong></p>
+        $$P(119,5 \le X \le 120,5) = P\left(\frac{-0,5}{10} \le T \le \frac{0,5}{10}\right) = P(-0,05 \le T \le 0,05) = 2\Phi(0,05) - 1 = 2(0,5199) - 1 = \mathbf{0,0398}$$
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div class="q-title">Interprétation de l'observation : 150 apparitions du chiffre 6</div>
+      </div>
+      <div class="explain-box">
+        <span class="explain-title">💡 Raisonnement statistique</span>
+        Si le dé était équilibré, $99,7\%$ des résultats se situeraient dans $[m - 3\sigma, m + 3\sigma] = [120 - 30, 120 + 30] = [90, 150]$.
+      </div>
+      <div class="step">
+        <p>Calculons la probabilité d'observer un résultat au moins aussi extrême que $150$ sous l'hypothèse d'un dé équilibré :</p>
+        $$P(X \ge 150) \approx P\left(T \ge \frac{149,5 - 120}{10}\right) = P(T \ge 2,95) = 1 - \Phi(2,95) = 1 - 0,9984 = \mathbf{0,0016} \text{ (soit } 0,16\%\text{)}$$
+      </div>
+      <div class="result-box">
+        <strong>Conclusion :</strong> La probabilité qu'un dé équilibré donne $150$ fois le chiffre 6 est quasi nulle ($0,16\%$). Vos soupçons sont fondés : <strong>le dé est très probablement pipé !</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- EXERCICE 6                                                -->
+  <!-- ========================================================= -->
+  <section id="exo6" class="exo-section">
+    <div class="exo-banner">
+      <h2>Exercice 6 : Assurance Maritime & Somme de Lois de Poisson</h2>
+      <span class="exo-tag">Loi de Poisson $\mathcal{P}(\lambda)$</span>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">1-2</div>
+        <div class="q-title">Loi exacte de $N$, approximation de Poisson et comparaison</div>
+      </div>
+      <div class="step">
+        <p><strong>1. Loi exacte :</strong> $n = 200$ navires indépendants, probabilité d'accident $p = 0,002$. Donc <strong>$N \sim \mathcal{B}(200 \,;\, 0,002)$</strong>.</p>
+        <p><strong>2. Approximation :</strong> $n = 200 \ge 30$, $p = 0,002 \le 0,1$ et $\lambda = np = 200 \times 0,002 = 0,4 < 10$. On approche $N$ par la loi de Poisson <strong>$\mathcal{P}(\lambda = 0,4)$</strong>.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Paramètre</th>
+              <th>Loi Binomiale $\mathcal{B}(200 \,;\, 0,002)$</th>
+              <th>Loi de Poisson $\mathcal{P}(0,4)$</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Espérance $E(N)$</strong></td>
+              <td>$np = 0,4$</td>
+              <td>$\lambda = 0,4$ (Identique)</td>
+            </tr>
+            <tr>
+              <td><strong>Variance $V(N)$</strong></td>
+              <td>$np(1-p) = 0,4 \times 0,998 = 0,3992$</td>
+              <td>$\lambda = 0,4$ (Très proche)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div class="q-title">Probabilités d'accidents durant un an ($N \sim \mathcal{P}(0,4)$)</div>
+      </div>
+      <div class="step">
+        <p>On utilise $P(N = k) = e^{-0,4} \frac{(0,4)^k}{k!}$ avec $e^{-0,4} \approx 0,67032$ :</p>
+        <ul>
+          <li><strong>Aucun accident :</strong> $P(N = 0) = e^{-0,4} \approx \mathbf{0,6703}$</li>
+          <li><strong>Un accident :</strong> $P(N = 1) = 0,4 \cdot e^{-0,4} \approx \mathbf{0,2681}$</li>
+          <li><strong>Deux accidents :</strong> $P(N = 2) = \frac{0,4^2}{2!} e^{-0,4} = 0,08 \cdot e^{-0,4} \approx \mathbf{0,0536}$</li>
+          <li><strong>Strictement plus de deux accidents ($N > 2$) :</strong>
+            $$P(N > 2) = 1 - [P(N=0) + P(N=1) + P(N=2)] = 1 - (0,6703 + 0,2681 + 0,0536) = \mathbf{0,0080}$$
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="q-header">
+        <div class="q-num">4</div>
+        <div class="q-title">Nombre d'accidents $Z = X + Y$ sur deux ans</div>
+      </div>
+      <div class="step">
+        <p><strong>(a) Décomposition de l'événement $\{Z = 2\}$ :</strong></p>
+        <p>Puisque $X$ et $Y$ sont indépendantes et suivent $\mathcal{P}(0,4)$ :</p>
+        $$\{Z = 2\} = \{X + Y = 2\} = (\{X=0\} \cap \{Y=2\}) \cup (\{X=1\} \cap \{Y=1\}) \cup (\{X=2\} \cap \{Y=0\})$$
+        $$P(Z = 2) = P(X=0)P(Y=2) + P(X=1)P(Y=1) + P(X=2)P(Y=0)$$
+        $$= (0,6703 \times 0,0536) + (0,2681 \times 0,2681) + (0,0536 \times 0,6703) = 0,0359 + 0,0719 + 0,0359 = \mathbf{0,1437}$$
+        <p><strong>(b) Méthode rapide par théorème (Stabilité de la loi de Poisson) :</strong></p>
+        <p>La somme de deux variables aléatoires indépendantes suivant des lois de Poisson $\mathcal{P}(\lambda_1)$ et $\mathcal{P}(\lambda_2)$ suit une loi de Poisson $\mathcal{P}(\lambda_1 + \lambda_2)$. Ici, $Z = X + Y \sim \mathcal{P}(0,4 + 0,4) = \mathcal{P}(0,8)$ :</p>
+        $$P(Z = 2) = e^{-0,8} \frac{(0,8)^2}{2!} = 0,32 \cdot e^{-0,8} \approx 0,32 \times 0,44933 \approx \mathbf{0,1438}$$
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    TD 1 Complet • Probabilités & Statistiques 2 (ING2) • Bon courage pour tes révisions !
+  </footer>
+</div>
+
+</body>
+</html>
